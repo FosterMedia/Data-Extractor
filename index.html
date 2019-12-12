@@ -1,0 +1,114 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="extractor.css" />
+    <link href="https://fonts.googleapis.com/css?family=Raleway&display=swap" rel="stylesheet">
+</head>
+
+<body translate="no">
+
+    <div class="container">
+        <div class="page-header">
+            <img alt="logo" class="logo" src="https://drivesocialnow.com/wp-content/uploads/2019/02/drive-logo_white_cyan-1.png">
+            <h1>Fountain Sales Data Extractor</h1>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+<!--
+                    <label for="data">Raw Sales Records JSON</label>
+                    <textarea name="data" id="data" rows="20" class="form-control"></textarea>
+-->
+                    <h3>Paste JSON &amp; Convert to Table</h3> 
+                    <p>Once you've changed the XML to JSON, paste and convert.</p>
+                    <textarea id="paste-box" type="text" name="txt" rows="10" value="Paste JSON Here" onchange="myFunction(this.value)"></textarea>
+                    <br/><br/>
+                    <button onClick="myFunction()" class="send">	
+                      <div class="text">Convert</div>
+                      <div class="loader"></div>
+                      <div class="done">Success</div>
+                    </button>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <h3>File Name: <span id="fileName"></span></h3>
+                <p><strong>Total Entries in File: <span id="totalEntries"></span></strong> | No Sale Logged: <span id="salesCount"></span> | Sales: <span id="noPaymentCount"></span></p>
+                <table id="table" class="table"></table>
+            </div>
+        </div>
+    </div>
+
+
+
+    <script src="https://static.codepen.io/assets/common/stopExecutionOnTimeout-de7e2ef6bfefd24b79a3f68b414b87b8db5b08439cac3f1012092b2290c719cd.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script src="extractor.js"></script>
+    <script id="rendered-js">
+        
+        function myFunction() {
+            document.getElementById("table").innerHTML = "Table Cleared";
+            var pastedData = document.getElementById("paste-box").value;
+            if (pastedData || pastedData !== undefined){
+                var json = JSON.parse(pastedData);
+                json = json.DailyData.Checks.Check;
+                parseData(json);
+            }
+        }
+        
+        $(".send").on('click', function(){
+            $(".text").addClass("active");
+            $(".send").addClass("active");
+            $(".loader").addClass("active");
+            $(".send").delay(1700).queue(function(){
+                $(this).addClass("finished").clearQueue();
+            });
+
+            $(".done").delay(1600).queue(function(){
+                $(this).addClass("active").clearQueue();
+            });
+        })
+
+//        $(document).ready(function() {
+////
+////
+////
+////            /**** Step 1: Convert XML to JSON ******
+////            ----------------------------------------
+////            http://convertjson.com/xml-to-json.htm
+////            
+////            
+////            /** Step 2: Add JSON file to folder ****
+////            ----------------------------------------
+////
+////
+////            /**** Step 3: Update name of file ******
+////            ----------------------------------------
+////            Change the name below to the name of the
+////            file you would like to extract data from.
+////            
+////            ****************************************/
+////            var foldername = "JSON";
+////            var filename = "12-06-2019.json";
+////            $("#fileName").text(filename);
+////            /***************************************/
+////
+////            /*
+////            10-27 (works now)
+////            10-28 
+////            11-04
+////            */
+//
+//            $.getJSON("./" + foldername + "/" + filename, function(data) {
+//                // JSON from file
+//                var sales = data.DailyData.Checks.Check
+//                // parse data to table
+//                parseData(sales);
+//            });
+//        });
+    </script>
+
+
+</body></html>
